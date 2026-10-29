@@ -37,46 +37,46 @@ Predict a continuous target using several input features. The model parameters a
 
 ### Model
 
-For a dataset with \(n\) observations and \(p\) features:
+For a dataset with $n$ observations and $p$ features:
 
-\[
+$$
 \hat{y} = Xm + c
-\]
+$$
 
 where:
 
-- \(X\) is the feature matrix with shape \((n, p)\).
-- \(m\) is the coefficient vector with shape \((p,)\).
-- \(c\) is the intercept.
-- \(\hat{y}\) contains the predictions.
+- $X$ is the feature matrix with shape $(n, p)$.
+- $m$ is the coefficient vector with shape $(p,)$.
+- $c$ is the intercept.
+- $\hat{y}$ contains the predictions.
 
 ### Loss function
 
 The implementation minimizes Mean Squared Error (MSE):
 
-\[
+$$
 J(m,c) = \frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2
-\]
+$$
 
-Let the residual vector be \(r = y - \hat{y}\). The gradients are:
+Let the residual vector be $r = y - \hat{y}$. The gradients are:
 
-\[
+$$
 \frac{\partial J}{\partial m} = -\frac{2}{n}X^T r
-\]
+$$
 
-\[
+$$
 \frac{\partial J}{\partial c} = -\frac{2}{n}\sum_{i=1}^{n}r_i
-\]
+$$
 
 The coefficients and intercept are updated iteratively:
 
-\[
+$$
 m \leftarrow m-\alpha\frac{\partial J}{\partial m},
 \qquad
 c \leftarrow c-\alpha\frac{\partial J}{\partial c}
-\]
+$$
 
-Here, \(\alpha\) is the learning rate. The gradient calculations are vectorized with NumPy.
+Here, $\alpha$ is the learning rate. The gradient calculations are vectorized with NumPy.
 
 ### Dataset and workflow
 
@@ -111,52 +111,52 @@ Predict the probability of a binary class. The model calculates a linear score, 
 
 First, calculate the linear score:
 
-\[
+$$
 z = Xm+c
-\]
+$$
 
 Then apply the sigmoid function:
 
-\[
+$$
 \sigma(z) = \frac{1}{1+e^{-z}}
-\]
+$$
 
 The output is interpreted as a probability:
 
-\[
+$$
 \hat{p} = \sigma(z)
-\]
+$$
 
 The predicted class is:
 
-\[
+$$
 \hat{y} =
 \begin{cases}
 1 & \text{if } \hat{p} \geq 0.5\\
 0 & \text{otherwise}
 \end{cases}
-\]
+$$
 
 ### Loss function and gradients
 
 The model minimizes binary cross-entropy (log loss):
 
-\[
+$$
 J(m,c) = -\frac{1}{n}\sum_{i=1}^{n}
 \left[
 y_i\log(\hat{p}_i) + (1-y_i)\log(1-\hat{p}_i)
 \right]
-\]
+$$
 
 The gradients for the logistic regression model are:
 
-\[
+$$
 \frac{\partial J}{\partial m} = \frac{1}{n}X^T(\hat{p}-y)
-\]
+$$
 
-\[
+$$
 \frac{\partial J}{\partial c} = \frac{1}{n}\sum_{i=1}^{n}(\hat{p}_i-y_i)
-\]
+$$
 
 Gradient descent updates the coefficient vector and intercept to reduce the loss. The implementation clips probabilities when calculating log loss to avoid taking the logarithm of zero.
 
@@ -212,10 +212,8 @@ Python 3.10 or later is a reasonable starting point.
 
 ### 1. Clone the repository
 
-Replace `<YOUR-USERNAME>` with your GitHub username.
-
 ```bash
-git clone https://github.com/<YOUR-USERNAME>/ML-Algorithms-From-Scratch.git
+git clone https://github.com/Aswin-githubrep/ML-Algorithms-From-Scratch.git
 cd ML-Algorithms-From-Scratch
 ```
 
