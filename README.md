@@ -2,7 +2,7 @@
 
 Implementing machine-learning algorithms with NumPy to understand the mathematics behind model training, rather than treating models as black boxes.
 
-This repository contains hands-on implementations of **multivariate linear regression** and **binary logistic regression**. Each notebook walks through the model, derives the gradients, trains the parameters with gradient descent, visualizes training loss, evaluates performance, and compares the results with scikit-learn.
+This repository contains hands-on implementations of **multivariate linear regression, binary logistic regression, and Gaussian Naive Bayes**. Each notebook walks through the mathematical foundations, implements the algorithm using NumPy, evaluates its performance, and compares the results with scikit-learn.
 
 The goal is to learn the mechanics of the algorithms and build them step by step.
 
@@ -12,15 +12,18 @@ The goal is to learn the mechanics of the algorithms and build them step by step
 |---|---|---|---|
 | `Linear_Regression_From_Scratch.ipynb` | Regression | California Housing | Mean squared error, vectorized gradients, gradient descent, feature standardization, MAE, R² |
 | `Logistic_Regression_From_Scratch.ipynb` | Binary classification | Breast Cancer Wisconsin (Diagnostic) | Sigmoid, binary cross-entropy, gradient descent, classification metrics, confusion matrix |
+| `Gaussian_Naive_Bayes_From_Scratch.ipynb` | Binary classification | Breast Cancer Wisconsin (Diagnostic) | Bayes' theorem, class priors, Gaussian likelihood, log probabilities, classification metrics |
 
 ## Repository structure
 
 ```text
 ML-Algorithms-From-Scratch/
+│
 ├── README.md
+├── .gitignore
 ├── Linear_Regression_From_Scratch.ipynb
 ├── Logistic_Regression_From_Scratch.ipynb
-└── .gitignore
+└── Gaussian_Naive_Bayes_From_Scratch.ipynb
 ```
 
 The notebooks include the code, explanations, visualizations, evaluation, and scikit-learn comparisons.
@@ -194,6 +197,70 @@ The scratch model correctly classified 111 of the 114 test samples.
 The scikit-learn model uses regularization by default, while the scratch implementation does not. Their predictions can be compared, but their learned coefficients are not expected to match exactly.
 
 **Important:** This notebook is an educational exercise, not a medical tool. It must not be used to diagnose or make clinical decisions.
+
+---
+
+## 3. Gaussian Naive Bayes
+
+**Notebook:** `Gaussian_Naive_Bayes_From_Scratch.ipynb`
+
+### Objective
+
+Implement a probabilistic classification algorithm based on Bayes' Theorem, assuming that continuous input features follow a Gaussian distribution within each class.
+
+### Mathematical Foundation
+
+Bayes' Theorem:
+
+$$
+P(C_k|X) = \frac{P(X|C_k)P(C_k)}{P(X)}
+$$
+
+Gaussian Probability Density Function:
+
+$$
+P(x_j|C_k) =
+\frac{1}{\sqrt{2\pi\sigma_{kj}^{2}}}
+\exp\left(
+-\frac{(x_j-\mu_{kj})^2}{2\sigma_{kj}^{2}}
+\right)
+$$
+
+Using logarithms to calculate posterior scores:
+
+$$
+\log P(C_k|X) \propto
+\log P(C_k) +
+\sum_{j=1}^{n}\log P(x_j|C_k)
+$$
+
+### Key Assumptions
+
+- Conditional independence of features given the class.
+- Continuous features follow Gaussian distributions within each class.
+
+### Dataset and Workflow
+
+- **Dataset:** Breast Cancer Wisconsin (Diagnostic), loaded using `sklearn.datasets.load_breast_cancer`.
+- **Samples:** 569.
+- **Features:** 30 numerical features.
+- **Target encoding:** `0 = malignant`, `1 = benign`.
+- **Workflow:** Calculate class priors, class-wise means and variances, Gaussian likelihoods, and log-posterior probabilities to predict the most probable class.
+- **Evaluation:** Accuracy, precision, recall, specificity, and confusion matrix.
+- **Reference comparison:** Compare predictions with scikit-learn's `GaussianNB`.
+
+### Held-out Test Results
+
+| Model | Accuracy |
+|---|---:|
+| Gaussian Naive Bayes (From Scratch) | 92.98% |
+| Scikit-learn GaussianNB | 93.86% |
+
+The scratch implementation correctly classified 106 out of 114 test samples.
+
+The results demonstrate that the from-scratch implementation produces performance close to the scikit-learn reference implementation.
+
+**Note:** The scratch implementation uses a small numerical variance safeguard, whereas scikit-learn uses global variance-based smoothing. Therefore, slight differences in predictions are expected.
 
 ---
 
